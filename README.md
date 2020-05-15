@@ -11,15 +11,19 @@ GEO: So far not supported.
 
 ## Running the description
 
-positional arguments:
+### positional arguments:
 
 input_raster: Elevation raster. Must be valid gdal source (geotiff, vrt, etc.)
+
 output_folder: Output path to the generated product
 
-optional arguments:
+### optional arguments:
   -utm_zone UTM: zone for output utm (must be three letters e.g. '32N' or '09S'). If not stated, zone will be autodetected based on input raster)
+
   -product_level: For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (default is level 5, GSD = 2 m)
+
   -xml_template: Template for sidecar xml file. Default to DGED_TEMPLATE.xml included in project
+
   -verbose: Show additional output
 
 
