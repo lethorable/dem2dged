@@ -43,3 +43,7 @@ Run the conversion tool with the included example with the command:
 python dem2dged_utm.py -product_level 4 test.tif delete
 
 This will create a folder "delete" with a set of tiles.
+
+## Acknowledgement
+
+The included template.xml is based on the DGED sample package from DGIWG (technically part of the spec).
