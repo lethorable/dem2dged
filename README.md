@@ -47,3 +47,4 @@ This will create a folder "delete" with a set of tiles.
 ## Acknowledgement
 
 The included template.xml is based on the DGED sample package from DGIWG (technically part of the spec).
+The included test.tif is from the Danish Elevation Model (DHM) and part of the public basic data programme.
