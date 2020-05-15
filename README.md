@@ -9,6 +9,8 @@ UTM: There are some limitations. The DGED spec is quite elaborate and allows for
 
 GEO: So far not supported.
 
+THIS PROJECT IS VERY VERY BETA! USE AT OWN RISK
+
 ## Running the description
 
 ### positional arguments:
