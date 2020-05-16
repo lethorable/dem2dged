@@ -175,33 +175,16 @@ def main(args):
     debug = pargs.verbose #if verbose is set, output will be printed using the dp() funcion
 
     my_os = sys.platform
-    print ("my_os: %s" %(my_os))
-#    if ((my_os == 'darwin') or ('linux' in my_os)): #either mac or linux
-#        gdal_edit_string = 'gdal_edit.py'
-#        gdalwarp_string = 'gdalwarp'
-#        dp ("OS is detected to %s - using gdal_edit.py" %(my_os))
-#    else:
-#        gdal_edit_string = 'python gdal_edit.py'
-#        gdalwarp_string = 'gdalwarp'
-#        dp ("OS is detected to %s - using 'python gdal_edit.py' in call. " %(my_os))
-#        dp ("WARNING! AS OF 20200516 THE ANACONDA DIST OF GDAL FOR WINDOWS DOES NOT INCLUDE GDAL_EDIT")
-#        dp ("A COPY OF GDAL_EDIT.PY IS INCLUDED IN THIS PROJECT. COPY TO THE ROOT AND ALL SHOULD BE")
-#        dp ("WORKING OUT FINE")
-    gdal_edit_string = 'python gdal_edit.py'
-    gdalwarp_string = 'gdalwarp'
-#    gdal_edit_string = 'gdal_edit.py'
-#    gdalwarp_string = 'gdalwarp'
-
-#    if pargs.gdal_bin !='auto':
-#        gdalwarp_string = os.path.join(pargs.gdal_bin,gdalwarp_string)
-#        gdal_edit_string = os.path.join(pargs.gdal_bin,gdal_edit_string)
-#    dp("following executables are called... ")
-#    dp (gdal_edit_string)
-#    dp (gdalwarp_string)
+    if ((my_os == 'darwin') or ('linux' in my_os)): #either mac or linux
+        dp ("my_os: %s ... all should be fine" %(my_os))
+    else:
+        dp ("OS is detected to %s - using 'python gdal_edit.py' in call. " %(my_os))
+        dp ("WARNING! AS OF 20200516 THE ANACONDA DIST OF GDAL FOR WINDOWS DOES NOT INCLUDE GDAL_EDIT")
+        dp ("A COPY OF GDAL_EDIT.PY IS INCLUDED IN THIS PROJECT")
+        print("Running on a windows machine - check to see if AREA_OR_POINT=Point in output (gdalinfo)")
 
     if not os.path.exists(pargs.output_folder):
         os.makedirs(pargs.output_folder)
-
 
     read_sidecar_template(pargs.xml_template) #The template is read. Keywords are marked with {{KEYWORD}}
 
@@ -247,7 +230,7 @@ def main(args):
             maxx = (xx+1) * (tiledim) + gsd #hanging pixel
             miny = yy     * (tiledim)
             maxy = (yy+1) * (tiledim) + gsd
-#            print ("%s %s %s %s "%(minx, maxx, miny, maxy))
+#            print ("%s %s %s %s "%(minx, maxx, miny, maxy)) 
             basename = "DGEDL%sU_%s_%s" %(pargs.product_level,int(minx),int(miny))
             namnam = os.path.join(pargs.output_folder,basename+'.tif')
             xmlnam = os.path.join(pargs.output_folder,basename+'.xml')
@@ -259,12 +242,12 @@ def main(args):
             dp(" ")
             dp("----------------------------------------------")
             dp("Creating elevation raster %s" %(namnam))
-            cmdstr = """%s -t_srs EPSG:%s+3855 -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(gdalwarp_string, my_out_srs, minx, miny, maxx, maxy, gsd, gsd, pargs.input_raster, namnam )
+            cmdstr = """gdalwarp -t_srs EPSG:%s+3855 -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minx, miny, maxx, maxy, gsd, gsd, pargs.input_raster, namnam )
             dp (cmdstr)
             run_cmd(cmdstr)
 
             dp("Adjusting tiff header")
-            cmdstr = """%s --config GTIFF_REPORT_COMPD_CS YES -a_srs epsg:%s+3855 -mo AREA_OR_POINT=POINT %s""" %(gdal_edit_string,my_out_srs,namnam)
+            cmdstr = """python gdal_edit.py --config GTIFF_REPORT_COMPD_CS YES -a_srs epsg:%s+3855 -mo AREA_OR_POINT=POINT %s""" %(my_out_srs,namnam)
             dp (cmdstr)
             run_cmd(cmdstr)
 
