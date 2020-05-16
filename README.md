@@ -75,3 +75,9 @@ This work is based on the DGED Product Implementation Profile which can be downl
 The included template.xml is based on the DGED sample package from DGIWG (technically part of the spec).
 
 The included test.tif is from the Danish Elevation Model (DHM) and part of the public basic data programme. Data can be downloaded from [Kortforsyningen](https://download.kortforsyningen.dk)
+
+## The fine print
+
+You are welcome to use and contribute to this work observing the included license.
+
+Hvidovre, Copenhagen 2020 - Thorbjørn Nielsen
