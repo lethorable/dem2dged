@@ -12,6 +12,7 @@ UTM: Though the DGED spec is already a narrow representation of the possibilitie
 GEO: So far not supported.
 
 **_THIS PROJECT IS VERY MUCH BETA! USE AT OWN RISK_**
+(at present it has only been tested on mac(osx) and linux(ubuntu))
 
 ## Running the script
 
