@@ -3,15 +3,15 @@
 Conversion of elevation data from any GDAL raster source to DGED tiles
 ## What is it?
 
-This is a small tool to convert a raster elevation dataset to a set of DGED tiles. At present only UTM tiles are supported.
+DGED (Defense Gridded Elevation Data) is a product implementation profile from [DGIWG](https://www.dgiwg.org/dgiwg/) (Defense Geospatial Information Working Group). In layman's words it is an instruction on how to package elevation data for military - and civlian - purposes (I will refer to DGED as "the spec" for convenience below). DGED sets forth rules on existing formats, ie GMLJP2, NSIF and GeoTIFF - the options are narrowed down thus allowing a more smooth import/export of data. This is a small tool to convert a raster elevation dataset to a set of DGED tiles. At present only UTM and GeoTiff tiles are supported.
 
-UTM: There are some limitations. The DGED spec is quite elaborate and allows for a lot of options. These are narrowed down in this implementation. For instance the no-data value is fixed, the tile size has been pre-chosen to the smallest size. If there are features you need for your project, let me know. Tiles are generated with the dem2dged_utm.py script.
+UTM: There are some limitations. The DGED spec is quite elaborate and allows for a lot of options. These are further narrowed down in this implementation. For instance the no-data value is fixed, the tile size has been pre-chosen to the smallest size. If there are features you need for your project, let me know. Tiles are generated with the dem2dged_utm.py script.
 
 GEO: So far not supported.
 
 THIS PROJECT IS VERY VERY BETA! USE AT OWN RISK
 
-## Running the description
+## Running the script
 
 ### positional arguments:
 
@@ -46,5 +46,8 @@ This will create a folder "delete" with a set of tiles.
 
 ## Acknowledgement
 
+This work is based on the DGED Product Implementation Profile which can be downloaded [here](https://www.dgiwg.org/dgiwg/htm/documents/standards_implementation_profiles.htm)
+
 The included template.xml is based on the DGED sample package from DGIWG (technically part of the spec).
-The included test.tif is from the Danish Elevation Model (DHM) and part of the public basic data programme.
+
+The included test.tif is from the Danish Elevation Model (DHM) and part of the public basic data programme. Data can be downloaded from [Kortforsyningen](https://download.kortforsyningen.dk)
