@@ -224,13 +224,13 @@ def main(args):
     for yy in range(iy_start, iy_end):
         for xx in range(ix_start, ix_end):
             numdone = numdone +1
-            percentage = 100*numdone/numfiles
+            percentage = int(100*numdone/numfiles)
 
             minx = xx     * (tiledim)
             maxx = (xx+1) * (tiledim) + gsd #hanging pixel
             miny = yy     * (tiledim)
             maxy = (yy+1) * (tiledim) + gsd
-#            print ("%s %s %s %s "%(minx, maxx, miny, maxy)) 
+#            print ("%s %s %s %s "%(minx, maxx, miny, maxy))
             basename = "DGEDL%sU_%s_%s" %(pargs.product_level,int(minx),int(miny))
             namnam = os.path.join(pargs.output_folder,basename+'.tif')
             xmlnam = os.path.join(pargs.output_folder,basename+'.xml')

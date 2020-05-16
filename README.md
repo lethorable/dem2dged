@@ -82,7 +82,7 @@ The included test.tif is from the Danish Elevation Model (DHM) and part of the p
 
 ## Known issues
 
-Anaconda/GDAL for windows does not seem to ship with a working copy of gdal_edit. A copy is provided in this project (in the folder xxgdal_editxx). If gdal_edit is not working on your system, simply copy the one from the subfolder to the location of the script and it should be working. Test the output with gdalinfo and make sure that `AREA_OR_POINT=Point`
+Anaconda/GDAL for windows does not seem to ship with a working copy of gdal_edit. A copy is provided in this project. Test the output with gdalinfo and make sure that `AREA_OR_POINT=Point`.
 
 ## The fine print
 
