@@ -13,7 +13,6 @@ parser.add_argument("output_folder", help="Output path to the generated product"
 parser.add_argument("-utm_zone",dest="utm",help="zone for output utm (must be three letters e.g. '32N' or '09S'). If not stated, zone will be autodetected based on input raster)",default="autodetect")
 parser.add_argument("-product_level",dest="product_level",help="For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (default is level 5, GSD = 2 m)",default="5")
 parser.add_argument("-xml_template",dest="xml_template",help="Template for sidecar xml file. Default to DGED_TEMPLATE.xml included in project",default="DGED_TEMPLATE.xml")
-parser.add_argument("-gdal_bin",dest="gdal_bin",help="Path to GDAL executables if they are not in system path",default="auto")
 
 parser.add_argument("-verbose",action="store_true",help="Show additional output")
 
@@ -177,18 +176,19 @@ def main(args):
 
     my_os = sys.platform
     print ("my_os: %s" %(my_os))
-    if ((my_os == 'darwin') or ('linux' in my_os)): #either mac or linux
-        gdal_edit_string = 'gdal_edit.py'
-        gdalwarp_string = 'gdalwarp'
-        dp ("OS is detected to %s - using gdal_edit.py" %(my_os))
-    else:
-        gdal_edit_string = 'python gdal_edit.py'
-        gdalwarp_string = 'gdalwarp'
-        dp ("OS is detected to %s - using 'python gdal_edit.py' in call. " %(my_os))
-        dp ("WARNING! AS OF 20200516 THE ANACONDA DIST OF GDAL FOR WINDOWS DOES NOT INCLUDE GDAL_EDIT")
-        dp ("A COPY OF GDAL_EDIT.PY IS INCLUDED IN THIS PROJECT. COPY TO THE ROOT AND ALL SHOULD BE")
-        dp ("WORKING OUT FINE")
-
+#    if ((my_os == 'darwin') or ('linux' in my_os)): #either mac or linux
+#        gdal_edit_string = 'gdal_edit.py'
+#        gdalwarp_string = 'gdalwarp'
+#        dp ("OS is detected to %s - using gdal_edit.py" %(my_os))
+#    else:
+#        gdal_edit_string = 'python gdal_edit.py'
+#        gdalwarp_string = 'gdalwarp'
+#        dp ("OS is detected to %s - using 'python gdal_edit.py' in call. " %(my_os))
+#        dp ("WARNING! AS OF 20200516 THE ANACONDA DIST OF GDAL FOR WINDOWS DOES NOT INCLUDE GDAL_EDIT")
+#        dp ("A COPY OF GDAL_EDIT.PY IS INCLUDED IN THIS PROJECT. COPY TO THE ROOT AND ALL SHOULD BE")
+#        dp ("WORKING OUT FINE")
+    gdal_edit_string = 'python gdal_edit.py'
+    gdalwarp_string = 'gdalwarp'
 #    gdal_edit_string = 'gdal_edit.py'
 #    gdalwarp_string = 'gdalwarp'
 
