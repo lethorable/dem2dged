@@ -14,6 +14,7 @@ GEO: So far not supported.
 **_THIS PROJECT IS VERY MUCH BETA! USE AT OWN RISK_**
 (at present it has only been tested on mac(osx) and linux(ubuntu))
 
+
 ## Running the script
 
 The script is executed from python 3:
@@ -78,6 +79,10 @@ This work is based on the DGED Product Implementation Profile which can be downl
 The included template.xml is based on the DGED sample package from DGIWG (technically part of the spec).
 
 The included test.tif is from the Danish Elevation Model (DHM) and part of the public basic data programme. Data can be downloaded from [Kortforsyningen](https://download.kortforsyningen.dk)
+
+## Known issues
+
+Anaconda/GDAL for windows does not seem to ship with a working copy of gdal_edit. A copy is provided in this project (in the folder xxgdal_editxx). If gdal_edit is not working on your system, simply copy the one from the subfolder to the location of the script and it should be working. Test the output with gdalinfo and make sure that `AREA_OR_POINT=Point`
 
 ## The fine print
 
