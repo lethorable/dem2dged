@@ -13,13 +13,22 @@ THIS PROJECT IS VERY VERY BETA! USE AT OWN RISK
 
 ## Running the script
 
-### positional arguments:
+The script is executed from python 3:
+
+```
+python dem2dged_utm.py -product_level 4 test.tif product_folder
+```
+
+The line above will autodetect a suitable UTM projection and generate a set of geotiff files and accompanying xml metadata files.
+
+
+### Positional arguments:
 
 input_raster: Elevation raster. Must be valid gdal source (geotiff, vrt, etc.)
 
 output_folder: Output path to the generated product
 
-### optional arguments:
+### Optional arguments:
   -utm_zone: zone for output utm (must be three letters e.g. '32N' or '09S'). If not stated, zone will be autodetected based on input raster)
 
   -product_level: For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (default is level 5, GSD = 2 m)
@@ -28,21 +37,36 @@ output_folder: Output path to the generated product
 
   -verbose: Show additional output
 
+### Example
+
+```
+python dem2dged_utm.py -product_level 4b -utm_zone 32N -xml_template custom_template.xml test.tif product_folder -verbose
+```
+The above example will create a series of UTM Level 4b files in UTM 32N (epsg:32632). A custom template is being used instead of the included one. All files are dumped in a folder named "product_folder" and the -verbose flag ensures all relevant debug info is echoed to the terminal.
 
 
 ## Installation
 
 Install anaconda and create an environment:
 
+```
 conda create --name DGED --channel conda-forge gdal git
+```
 
-activate the environment. That's it
+activate the environment:
+```
+conda activate DGED
+```
+
+That's it
 
 Run the conversion tool with the included example with the command:
 
-python dem2dged_utm.py -product_level 4 test.tif delete
+```
+python dem2dged_utm.py -product_level 4 test.tif dged_output
+```
 
-This will create a folder "delete" with a set of tiles.
+This will create a folder "dged_output" with a set of tiles.
 
 ## Acknowledgement
 
