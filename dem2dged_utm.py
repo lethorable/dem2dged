@@ -170,9 +170,22 @@ def run_cmd(cmdstr):
 def main(args):
     pargs = parser.parse_args(args[1:])
     global debug
+    global my_os
     debug = pargs.verbose #if verbose is set, output will be printed using the dp() funcion
+
+    my_os = sys.platform
+    print ("my_os: %s" %(my_os))
+    if ((my_os == 'darwin') or ('linux' in my_os)): #either mac or linux
+        gdal_edit_string = 'gdal_edit.py'
+        dp ("OS is detected to %s - using gdal_edit.py" %(my_os))
+    else:
+        gdal_edit_string = 'gdal_edit'
+        dp ("OS is detected to %s - using gdal_edit" %(my_os))
+
+
     if not os.path.exists(pargs.output_folder):
         os.makedirs(pargs.output_folder)
+
 
     read_sidecar_template(pargs.xml_template) #The template is read. Keywords are marked with {{KEYWORD}}
 
@@ -235,7 +248,7 @@ def main(args):
             run_cmd(cmdstr)
 
             dp("Adjusting tiff header")
-            cmdstr = """gdal_edit.py --config GTIFF_REPORT_COMPD_CS YES -a_srs epsg:%s+3855 -mo AREA_OR_POINT=POINT %s""" %(my_out_srs,namnam)
+            cmdstr = """%s --config GTIFF_REPORT_COMPD_CS YES -a_srs epsg:%s+3855 -mo AREA_OR_POINT=POINT %s""" %(gdal_edit_string,my_out_srs,namnam)
             dp (cmdstr)
             run_cmd(cmdstr)
 
