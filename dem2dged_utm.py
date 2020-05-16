@@ -184,7 +184,10 @@ def main(args):
     else:
         gdal_edit_string = 'python gdal_edit.py'
         gdalwarp_string = 'gdalwarp'
-        dp ("OS is detected to %s - using gdal_edit" %(my_os))
+        dp ("OS is detected to %s - using 'python gdal_edit.py' in call. " %(my_os))
+        dp ("WARNING! AS OF 20200516 THE ANACONDA DIST OF GDAL FOR WINDOWS DOES NOT INCLUDE GDAL_EDIT")
+        dp ("A COPY OF GDAL_EDIT.PY IS INCLUDED IN THIS PROJECT. COPY TO THE ROOT AND ALL SHOULD BE")
+        dp ("WORKING OUT FINE")
 
 #    gdal_edit_string = 'gdal_edit.py'
 #    gdalwarp_string = 'gdalwarp'
