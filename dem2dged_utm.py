@@ -18,8 +18,7 @@ parser.add_argument("-verbose",action="store_true",help="Show additional output"
 
 """
 This script converts a raster elevation data source to UTM DGED. The specification can be found here: https://www.dgiwg.org/dgiwg/htm/documents/standards_implementation_profiles.htm
-It is very much a work in progress and something I have done in my spare time and as such there are no guarantees.
-Feel free to use it in any way desired.
+The project resides on github: https://github.com/lethorable/dem2dged - please observe the license in the repository
 
 Hvidovre, Copenhagen 2020. Thorbjoern Nielsen
 """
@@ -99,7 +98,7 @@ def get_recommended_srs_for_output(ext):
     dp('GETX and GETY')
     dp (point.GetX())
     dp (point.GetY())
-    zone_ish = math.floor((point.GetY() + 180)/6) + 1; #this is not always correct, - Svalbard for instance. Good enough for jazz...
+    zone_ish = math.floor((point.GetY() + 180)/6) + 1; #this is not always correct, - Svalbard for instance. Good enough for jazz... use the -utm_zone parameter if working in Norway
     dp ("Zone_ish %s" %(zone_ish))
 
     if point.GetX()<0:
