@@ -140,7 +140,7 @@ def checkos():
     my_os = sys.platform
     dp ("*"*20)
     if ((my_os == 'darwin') or ('linux' in my_os)): #either mac or linux
-        dp ("OS detected"...: %s ... all should be work fine" %(my_os))
+        dp ("OS detected...: %s ... all should be work fine" %(my_os))
     else:
         dp ("OS is detected to %s - using 'python gdal_edit.py' in call. " %(my_os))
         dp ("WARNING! AS OF 20200516 THE ANACONDA DIST OF GDAL FOR WINDOWS DOES NOT INCLUDE GDAL_EDIT")
