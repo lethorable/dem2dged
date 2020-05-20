@@ -9,10 +9,10 @@ This is a small tool to convert a raster elevation dataset to a set of DGED tile
 
 **UTM:** Though the DGED spec is already a narrow representation of the possibilities within GeoTiff, GMLJP2 and NSIF it is still quite elaborate and allows for a lot of options. These are further narrowed down in this implementation. For instance the no-data value is fixed, the tile size has been pre-chosen to the smallest size within a product level and certain values are hardcoded. If there are features you need for your project, let me know.
 
-**GEO:** So far not supported. The spec allows for data in both UTM and Lat/Lon (WGS84). A script for this will be added later.
+**GEO:** As for UTM certain choices regarding tile sizing, nodata etc. has been preset.
 
 **_THIS PROJECT IS VERY MUCH BETA! USE AT OWN RISK_**
-(at present it has only been tested on mac(osx) and linux(ubuntu))
+At present it has only been tested on mac(osx) and linux(ubuntu). The author takes no responsibility for any damage caused by using these scripts. Refer to the included license.
 
 
 ## Running the script
@@ -22,8 +22,12 @@ The script is executed from python 3:
 ```
 python dem2dged_utm.py <input elevation file> <output folder> <optional arguments>
 ```
+The command above will autodetect a suitable UTM projection and generate a set of geotiff files and accompanying xml metadata files in UTM.
 
-The command above will autodetect a suitable UTM projection and generate a set of geotiff files and accompanying xml metadata files.
+```
+python dem2dged_geo.py <input elevation file> <output folder> <optional arguments>
+```
+The command above will generate a set of geotiff files in wgs84 (EPSG:4326)
 
 
 ### Positional arguments:
@@ -34,22 +38,30 @@ The command above will autodetect a suitable UTM projection and generate a set o
 
 ### Optional arguments:
 
-`-utm_zone`: zone for output utm (must be three letters e.g. '32N' or '09S'). If not stated, zone will be autodetected based on input raster)
-
-`-product_level`: For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (default is level 5, GSD = 2 m)
+`-product_level`: For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (for dem2dged_utm.py default is level 5, GSD = 2 and for dem2dged_geo.py default is level 2, GSD ~ 30m)
 
 `-xml_template`: Template for sidecar xml file. Default to DGED_TEMPLATE.xml included in project
 
 `-verbose`: Show additional output
 
-### Example
+For dem2dged_utm.py specifically:
+
+`-utm_zone`: zone for output utm (must be three letters e.g. '32N' or '09S'). If not stated, zone will be autodetected based on input raster)
+
+
+### Examples
 
 ```
-python dem2dged_utm.py -product_level 4b -utm_zone 32N -xml_template custom_template.xml test.tif product_folder -verbose
+python dem2dged_utm.py -product_level 4b -utm_zone 32N -xml_template custom_utm_template.xml test.tif product_folder -verbose
 ```
 
 The above example will create a series of UTM Level 4b files in UTM 32N (epsg:32632). A custom template is being used instead of the included one. All files are dumped in a folder named "product_folder" and the -verbose flag ensures all relevant debug info is echoed to the terminal.
 
+```
+python dem2dged_geo.py -product_level 6 -xml_template custom_geo_template.xml test.tif product_folder -verbose
+```
+
+Here a set of DGED tiles in the GEO format is created. Level 6 is used and the xml is generated from a custom template.
 
 ## Installation
 
@@ -85,7 +97,7 @@ This will create a folder "dged_output" with a set of tiles.
 
 This work is based on the DGED Product Implementation Profile which can be downloaded [here](https://www.dgiwg.org/dgiwg/htm/documents/standards_implementation_profiles.htm)
 
-The included template.xml is based on the DGED sample package from DGIWG (technically part of the spec).
+The included templates (xml) is based on the DGED sample package from DGIWG (technically part of the spec).
 
 The included test.tif is from the Danish Elevation Model (DHM) and part of the public basic data programme. Data can be downloaded from [Kortforsyningen](https://download.kortforsyningen.dk)
 
