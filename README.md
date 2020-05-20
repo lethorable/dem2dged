@@ -111,4 +111,7 @@ When generating UTM DGED files for Norway and in particular Svalbard the UTM def
 
 You are welcome to use and contribute to this work observing the included license.
 
-Hvidovre, Copenhagen 2020 - Thorbjørn Nielsen
+Hvidovre, Copenhagen 2020 - Thorbjørn Nielsen.
+For inquiries, questions etc please reach out at...
+
+t h o r b j o r n  (at) g m a i l (dot) c o m
