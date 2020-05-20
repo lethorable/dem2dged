@@ -13,6 +13,13 @@ parser.add_argument("-product_level",dest="product_level",help="For UTM output m
 parser.add_argument("-xml_template",dest="xml_template",help="Template for sidecar xml file. Default to DGED_GEO_TEMPLATE.xml included in project",default="DGED_GEO_TEMPLATE.xml")
 parser.add_argument("-verbose",action="store_true",help="Show additional output")
 
+"""
+This script converts a raster elevation data source to GEO DGED. The specification can be found here: https://www.dgiwg.org/dgiwg/htm/documents/standards_implementation_profiles.htm
+The project resides on github: https://github.com/lethorable/dem2dged - please observe the license in the repository
+
+Hvidovre, Copenhagen 2020. Thorbjoern Nielsen
+"""
+
 
 def resolve_lon_multiplication(minx):
     """
