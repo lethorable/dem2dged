@@ -1,34 +1,32 @@
 # dem2dged
 
 Conversion of elevation data from any GDAL raster source to DGED tiles
+
 ## What is it?
 
-DGED (Defense Gridded Elevation Data) is a product implementation profile from [DGIWG](https://www.dgiwg.org/dgiwg/) (Defense Geospatial Information Working Group). In layman's words it is an instruction on how to package elevation data for military - and civlian - purposes (I will refer to DGED as "the spec" for convenience below). DGED sets forth rules on existing formats, ie GMLJP2, NSIF and GeoTIFF - the options are narrowed down thus allowing a more smooth import/export of data. Eventually DGED will (hopefully) replace DTED as the main media for elevation data exchange.
+This is a small tool to convert a raster elevation dataset to a set of DGED GeoTIFF tiles albeit with a few limitations.
 
-This is a small tool to convert a raster elevation dataset to a set of DGED tiles albeit with quite a few limitations
+DGED (Defense Gridded Elevation Data) is a product implementation profile from [DGIWG](https://www.dgiwg.org/dgiwg/) (Defense Geospatial Information Working Group). In layman's words it is an instruction on how to package elevation data for military purposes (I will refer to DGED as "the spec" for convenience below). The DGED spec can be downloaded [here](https://www.dgiwg.org/dgiwg/htm/documents/standards_implementation_profiles.htm).
 
-**UTM:** Though the DGED spec is already a narrow representation of the possibilities within GeoTiff, GMLJP2 and NSIF it is still quite elaborate and allows for a lot of options. These are further narrowed down in this implementation. For instance the no-data value is fixed, the tile size has been pre-chosen to the smallest size within a product level and certain values are hardcoded. If there are features you need for your project, let me know.
+DGED sets forth rules on existing formats, ie GMLJP2, NSIF and GeoTIFF - the options are narrowed down thus allowing a more smooth import/export of data. DGED will replace DTED as the main media for elevation data exchange.
 
-**GEO:** As for UTM certain choices regarding tile sizing, nodata etc. has been preset.
+Though the DGED spec is already a narrow representation of the possibilities within GeoTiff, GMLJP2 and NSIF it is still quite elaborate and allows for a lot of options. These are further narrowed down in this implementation. For instance the no-data value is fixed, the tile size has been pre-chosen to the smallest size within a product level and certain values are hardcoded. If there are features you need for your project, let me know.
 
-**_THIS PROJECT IS VERY MUCH BETA! USE AT OWN RISK_**
-At present it has only been tested on mac(osx) and linux(ubuntu). The author takes no responsibility for any damage caused by using these scripts. Refer to the included license.
-
+**_THIS PROJECT IS VERY MUCH BETA! USE AT OWN RISK - ABSOLUTELY NO WARRANTY_**
+At present it has only been tested on mac(osx) and linux(ubuntu) and not in a production environment. The author takes no responsibility for any damage caused by using these scripts. Refer to the included license.
 
 ## Running the script
 
 The script is executed from python 3:
 
 ```
+UTM:
 python dem2dged_utm.py <input elevation file> <output folder> <optional arguments>
-```
-The command above will autodetect a suitable UTM projection and generate a set of geotiff files and accompanying xml metadata files in UTM.
 
-```
+GEO:
 python dem2dged_geo.py <input elevation file> <output folder> <optional arguments>
 ```
-The command above will generate a set of geotiff files in wgs84 (EPSG:4326)
-
+Using the dem2dged_utm.py command above will autodetect a suitable UTM projection and generate a set of geotiff files and accompanying xml metadata files in UTM. Using dem2dged_geo will generate a set of geotiff files in wgs84 (EPSG:4326)
 
 ### Positional arguments:
 
@@ -38,7 +36,7 @@ The command above will generate a set of geotiff files in wgs84 (EPSG:4326)
 
 ### Optional arguments:
 
-`-product_level`: For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (for dem2dged_utm.py default is level 5, GSD = 2 and for dem2dged_geo.py default is level 2, GSD ~ 30m)
+`-product_level`: For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (default is level 5 resulting in a GSD of respectively 2m (UTM) and 0.06 arcsec lat (GEO))
 
 `-xml_template`: Template for sidecar xml file. Default to DGED_TEMPLATE.xml included in project
 

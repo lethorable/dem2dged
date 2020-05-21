@@ -9,7 +9,7 @@ import dem2dged_lib as dl
 parser = argparse.ArgumentParser(description="Convert a DEM to DGED GEO. The script reads a GDAL raster source and based on user input creates a set of tiles compatible with DGIWG/DGED")
 parser.add_argument("input_raster", help="Elevation raster. Must be valid gdal source (geotiff, vrt, etc.)")
 parser.add_argument("output_folder", help="Output path to the generated product")
-parser.add_argument("-product_level",dest="product_level",help="For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (default is level 5, GSD = 2 m)",default="2")
+parser.add_argument("-product_level",dest="product_level",help="For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (default is level 5, GSD ~ 2 m)",default="5")
 parser.add_argument("-xml_template",dest="xml_template",help="Template for sidecar xml file. Default to DGED_GEO_TEMPLATE.xml included in project",default="DGED_GEO_TEMPLATE.xml")
 parser.add_argument("-verbose",action="store_true",help="Show additional output")
 
