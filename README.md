@@ -4,11 +4,11 @@ Conversion of elevation data from any GDAL raster source to DGED tiles
 
 ## What is it?
 
-This is a small tool to convert a raster elevation dataset to a set of DGED GeoTIFF tiles albeit with a few limitations.
+This is a tool to convert a raster elevation dataset to a set of DGED GeoTIFF tiles.
 
-DGED (Defense Gridded Elevation Data) is a product implementation profile from [DGIWG](https://www.dgiwg.org/dgiwg/) (Defense Geospatial Information Working Group). In layman's words it is an instruction on how to package elevation data for military purposes (I will refer to DGED as "the spec" for convenience below). The DGED spec can be downloaded [here](https://www.dgiwg.org/dgiwg/htm/documents/standards_implementation_profiles.htm).
+DGED (Defense Gridded Elevation Data) is a product implementation profile from [DGIWG](https://www.dgiwg.org/dgiwg/) (Defense Geospatial Information Working Group). In layman's terms it is an instruction on how to package elevation data for military purposes (I will refer to DGED as "the spec" for convenience below). The DGED spec can be downloaded [here](https://www.dgiwg.org/dgiwg/htm/documents/standards_implementation_profiles.htm). **It is highly recommended to read the spec before using these scripts.**
 
-DGED sets forth rules on existing formats, ie GMLJP2, NSIF and GeoTIFF - the options are narrowed down thus allowing a more smooth import/export of data. DGED will replace DTED as the main media for elevation data exchange.
+DGED sets forth rules on existing formats, ie GMLJP2, NSIF and GeoTIFF - the options are narrowed down thus allowing a more smooth import/export of data between systems. DGED will replace DTED as the main media for elevation data exchange.
 
 Though the DGED spec is already a narrow representation of the possibilities within GeoTiff, GMLJP2 and NSIF it is still quite elaborate and allows for a lot of options. These are further narrowed down in this implementation. For instance the no-data value is fixed, the tile size has been pre-chosen to the smallest size within a product level and certain values are hardcoded. If there are features you need for your project, let me know.
 
@@ -17,7 +17,9 @@ At present it has only been tested on mac(osx) and linux(ubuntu) and not in a pr
 
 ## Running the script
 
-The script is executed from python 3:
+The scripts works on any GDAL raster source, small or large as long as it has a valid EPSG code defined. The output tiles are sliced into the smallest tile size defined by the spec. If slicing up a large file (e.g. a nationwide vrt) fails due to computer restart, network connection etc. simply just delete the last generated DGED tile and run the script again - it should continue where it left off.
+
+The scripts are executed from python 3:
 
 ```
 UTM:
@@ -38,7 +40,7 @@ Using the dem2dged_utm.py command above will autodetect a suitable UTM projectio
 
 `-product_level`: For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (default is level 5 resulting in a GSD of respectively 2m (UTM) and 0.06 arcsec lat (GEO))
 
-`-xml_template`: Template for sidecar xml file. Default to DGED_TEMPLATE.xml included in project
+`-xml_template`: Template for sidecar xml file. Default to DGED_GEO_TEMPLATE.xml and DGED_UTM_TEMPLATE.xml included in project
 
 `-verbose`: Show additional output
 
@@ -81,15 +83,19 @@ Clone the repo using git:
 git clone https://github.com/lethorable/dem2dged.git
 ```
 
-That's it
+That's it. Now you should have the repository installed in the folder "dem2dged".
 
-Run the conversion tool with the included example with the command:
+Run the conversion tools with the included example with the command:
 
 ```
 python dem2dged_utm.py test.tif dged_output
+
+or
+
+python dem2dged_geo.py test.tif dged_output
 ```
 
-This will create a folder "dged_output" with a set of tiles.
+This will create a subfolder "dged_output" with a set of tiles.
 
 ## Acknowledgement
 

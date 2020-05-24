@@ -110,7 +110,7 @@ urn:dgiwg:xmlns:dmf:2.0:iso-g1:profile:all C:\Users\B004155\JNH\Standardisering\
 				<gmd:CI_Citation>
 					<!-- RSTITLE -->
 					<gmd:title>
-						<gco:CharacterString>DGEDL9U_32N_6157500_546250</gco:CharacterString>
+						<gco:CharacterString>{{BASENAME}}</gco:CharacterString>
 					</gmd:title>
 					<!-- RSDATE -->
 					<gmd:date>
