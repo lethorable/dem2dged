@@ -6,7 +6,7 @@ Conversion of elevation data from any GDAL raster source to DGED tiles
 
 This is a tool to convert a raster elevation dataset to a set of DGED GeoTIFF tiles.
 
-DGED (Defense Gridded Elevation Data) is a product implementation profile from [DGIWG](https://www.dgiwg.org/dgiwg/) (Defense Geospatial Information Working Group). In layman's terms it is an instruction on how to package elevation data for military purposes (I will refer to DGED as "the spec" for convenience below). The DGED spec can be downloaded [here](https://www.dgiwg.org/dgiwg-standards/250). **It is highly recommended to read the spec before using these scripts.**
+DGED (Defense Gridded Elevation Data) is a product implementation profile from [DGIWG](https://www.dgiwg.org) (Defense Geospatial Information Working Group). In layman's terms it is an instruction on how to package elevation data for military purposes (I will refer to DGED as "the spec" for convenience below). The DGED spec can be downloaded [here](https://www.dgiwg.org/dgiwg-standards/250). **It is highly recommended to read the spec before using these scripts.**
 
 DGED sets forth rules on existing formats, ie GMLJP2, NSIF and GeoTIFF - the options are narrowed down thus allowing a more smooth import/export of data between systems. DGED will replace DTED as the main media for elevation data exchange.
 
