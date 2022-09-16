@@ -24,33 +24,33 @@ zone_lon_spacing.append (( 5, 80,  85, 1, 5  ))
 zone_lon_spacing.append (( 6, 85,  90, 1, 10 ))
 
 #Derived from table 7 page 24
-# level, tile_size (minutes), lat_res                          #corresponds to...
+# level, tile_size (minutes), lat_res, tile size letter                #corresponds to...
 level_tilesize_and_spatial_resolution = []
-level_tilesize_and_spatial_resolution.append (("0",  60,  30))    # 1000 m
-level_tilesize_and_spatial_resolution.append (("1",  60,  3))     # 100 m
-level_tilesize_and_spatial_resolution.append (("2",  60,  1))     # 30 m
-level_tilesize_and_spatial_resolution.append (("3",  60,  0.4))   # 12 m
-level_tilesize_and_spatial_resolution.append (("4b", 15,  0.15))  # 5 m
-level_tilesize_and_spatial_resolution.append (("4",  15,  0.12))  # 4 m
-level_tilesize_and_spatial_resolution.append (("5",  6,   0.06))  # 2 m
-level_tilesize_and_spatial_resolution.append (("6",  3,   0.03))  # 1 m
-level_tilesize_and_spatial_resolution.append (("7",  1.5, 0.015)) # 0.5 m
-level_tilesize_and_spatial_resolution.append (("8",  1,   0.0075)) # 0.25 m
-level_tilesize_and_spatial_resolution.append (("9",  1,   0.00375)) # 0.125 m
+level_tilesize_and_spatial_resolution.append (("0",  60,  30, "A"))    # 1000 m
+level_tilesize_and_spatial_resolution.append (("1",  60,  3, "A"))     # 100 m
+level_tilesize_and_spatial_resolution.append (("2",  60,  1, "A"))     # 30 m
+level_tilesize_and_spatial_resolution.append (("3",  60,  0.4, "A"))   # 12 m
+level_tilesize_and_spatial_resolution.append (("4b", 15,  0.15, "C"))  # 5 m
+level_tilesize_and_spatial_resolution.append (("4",  15,  0.12, "C"))  # 4 m
+level_tilesize_and_spatial_resolution.append (("5",  6,   0.06, "D"))  # 2 m
+level_tilesize_and_spatial_resolution.append (("6",  3,   0.03, "E"))  # 1 m
+level_tilesize_and_spatial_resolution.append (("7",  1.5, 0.015, "F")) # 0.5 m
+level_tilesize_and_spatial_resolution.append (("8",  1,   0.0075, "G")) # 0.25 m
+level_tilesize_and_spatial_resolution.append (("9",  1,   0.00375, "G")) # 0.125 m
 
 #*--*--*--*--**--*--*--*--**--*--*--*--**--*--*--*--**--*--*--*--**--*--*--*--*
 #Following array is for converting to utm
 #Derived from Table 8 page 25
 #Array with parameters for the various levels. As for number of posts per tile, the lowest choice is used
-#Order is...  level name, GSD, number of posts
+#Order is...  level name, GSD, number of posts, tile size letter
 PL = []
-PL.append(('4b',5,5001))
-PL.append(('4',4,6251))
-PL.append(('5',2,5001))
-PL.append(('6',1,5001))
-PL.append(('7',0.5,5001))
-PL.append(('8',0.25,5001))
-PL.append(('9',0.125,10001))
+PL.append(('4b',5,5001, "C"))
+PL.append(('4',4,6251, "C"))
+PL.append(('5',2,5001, "D"))
+PL.append(('6',1,5001, "E"))
+PL.append(('7',0.5,5001, "F"))
+PL.append(('8',0.25,5001, "G"))
+PL.append(('9',0.125,10001, "G"))
 
 #*--*--*--*--**--*--*--*--**--*--*--*--**--*--*--*--**--*--*--*--**--*--*--*--*
 #Following functions are common for both UTM And GEO conversion

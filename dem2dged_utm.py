@@ -6,7 +6,7 @@ import subprocess
 import datetime
 import dem2dged_lib as dl
 
-debug = False
+debug = True
 
 parser = argparse.ArgumentParser(description="Convert a DEM to DGED UTM. The script reads a GDAL raster source and based on user input creates a set of tiles compatible with DGIWG/DGED")
 parser.add_argument("input_raster", help="Elevation raster. Must be valid gdal source (geotiff, vrt, etc.)")
@@ -14,8 +14,12 @@ parser.add_argument("output_folder", help="Output path to the generated product"
 parser.add_argument("-utm_zone",dest="utm",help="zone for output utm (must be three letters e.g. '32N' or '09S'). If not stated, zone will be autodetected based on input raster)",default="autodetect")
 parser.add_argument("-product_level",dest="product_level",help="For UTM output must be 4b, 4, 5, 6, 7, 8 or 9 (default is level 5, GSD = 2 m)",default="5")
 parser.add_argument("-xml_template",dest="xml_template",help="Template for sidecar xml file. Default to DGED_UTM_TEMPLATE.xml included in project",default="DGED_UTM_TEMPLATE.xml")
-
+parser.add_argument("-source_type", dest="source_type", help="Source type code must be a letter according to the DGED specification (default is A = optical unedited reflective surface)", default="A")
+parser.add_argument("-security_class", dest="sec_class", help="Security classification must be T, S, C, R or U (default is U)", default="U")
+parser.add_argument("-product_version", dest="prod_ver", help="Product version must be a 2 digits code (default is 01)", default="01")
 parser.add_argument("-verbose",action="store_true",help="Show additional output")
+
+
 
 """
 This script converts a raster elevation data source to UTM DGED. The specification can be found here: https://www.dgiwg.org/dgiwg/htm/documents/standards_implementation_profiles.htm
@@ -30,13 +34,15 @@ def resolve_level_utm(lvl):
     The smallest has been chosen here, but it is fairly easy ti adjust the array 'level_tilesize_and_spatial_resolution' to accomodate larger tiles.
     Refer to Table 8 page 25 in the DGED spec for other sizes
     """
-    gsd = 2
+    gst = 2
     posts = 5001
+    tile_size_letter = "D"
     for l in dl.PL:
         if l[0]==lvl:
             gst = l[1]
             posts = l[2]
-    return gst, posts
+            tile_size_letter = l[3]
+    return gst, posts, tile_size_letter
 
 def get_recommended_srs_for_output(ext):
     """
@@ -96,7 +102,7 @@ def main(args):
         else:
             my_out_srs= int("327"+pargs.utm[:-1]) #UTM S starts with 327
         zone_ish = int(pargs.utm[:-1])
-    gsd, posts = resolve_level_utm(pargs.product_level)
+    gsd, posts, tile_size_letter = resolve_level_utm(pargs.product_level)
     dl.dp ("GSD for output is set to: %s" %(gsd))
     dl.dp ("There are %s posts in the output files " %(posts))
     dl.dp ("EPSG code (srs) has been set to: EPSG:%s" %(my_out_srs))
@@ -122,7 +128,9 @@ def main(args):
             miny = yy     * (tiledim)
             maxy = (yy+1) * (tiledim) + gsd
 #            print ("%s %s %s %s "%(minx, maxx, miny, maxy))
-            basename = "DGEDL%sU_%s_%s" %(pargs.product_level,int(minx),int(miny))  #should this be invoked from command line?
+            basename = "DGEDL%sUt%s_%s%s_%s_%s_%s_%s" %(pargs.product_level,tile_size_letter,pargs.utm,int(miny),int(minx), pargs.source_type, pargs.sec_class, pargs.prod_ver)  #should this be invoked from command line?
+            if pargs.product_level in ['4b', '4', '5', '6']:
+                basename = "DGEDL%sUt%s_%s%s_%s_%s_%s_%s" %(pargs.product_level,tile_size_letter,pargs.utm,int(miny/1000),int(minx/1000), pargs.source_type, pargs.sec_class, pargs.prod_ver)
             namnam = os.path.join(pargs.output_folder,basename+'.tif')
             xmlnam = os.path.join(pargs.output_folder,basename+'.xml')
 
@@ -133,11 +141,18 @@ def main(args):
             dl.dp(" ")
             dl.dp("-"*70)
             dl.dp("Creating elevation raster %s" %(namnam))
-            cmdstr = """gdalwarp -t_srs EPSG:%s+3855 -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minx, miny, maxx, maxy, gsd, gsd, pargs.input_raster, namnam )
+            # EPSG:3855 gives the vertical reference of EGM2008. For a lot of files, gdalwarp doesn't work when this reference is given.
+#            cmdstr = """gdalwarp -t_srs EPSG:%s+3855 -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minx, miny, maxx, maxy, gsd, gsd, pargs.input_raster, namnam )
+            cmdstr = """gdalwarp -t_srs EPSG:%s -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minx, miny, maxx, maxy, gsd, gsd, pargs.input_raster, namnam )
             dl.dp (cmdstr)
             dl.run_cmd(cmdstr)
 
             dl.dp("Adjusting tiff header")
+            """
+            The tiff file that is written, will have a vertical reference set to EGM2008 (EPSG:3855). With the modification
+            of the gdalwarp command above, there is no conversion of vertical datum, since the conversion seems problematic.
+            That means the true vertical reference might be something else than EGM2008.
+            """
             cmdstr = """python gdal_edit.py --config GTIFF_REPORT_COMPD_CS YES -a_srs epsg:%s+3855 -mo AREA_OR_POINT=POINT %s""" %(my_out_srs,namnam)
             dl.dp (cmdstr)
             dl.run_cmd(cmdstr)
