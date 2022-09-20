@@ -136,17 +136,10 @@ def main(args):
             dl.dp(" ")
             dl.dp("-"*70)
             dl.dp("Creating elevation raster %s" %(namnam))
-            # EPSG:3855 gives the vertical reference of EGM2008. For a lot of files, gdalwarp doesn't work when this reference is given.
-#            cmdstr = """gdalwarp -t_srs EPSG:%s+3855 -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minlon, minlat, maxlon, maxlat, lonres, latres, pargs.input_raster, namnam )
-            cmdstr = """gdalwarp -t_srs EPSG:%s -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minlon, minlat, maxlon, maxlat, lonres, latres, pargs.input_raster, namnam )
+            cmdstr = """gdalwarp -t_srs EPSG:%s+3855 -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minlon, minlat, maxlon, maxlat, lonres, latres, pargs.input_raster, namnam )
             dl.dp (cmdstr)
             dl.run_cmd(cmdstr)
             dl.dp("Adjusting tiff header")
-            """
-            The tiff file that is written, will have a vertical reference set to EGM2008 (EPSG:3855). With the modification
-            of the gdalwarp command above, there is no conversion of vertical datum, since the conversion seems problematic.
-            That means the true vertical reference might be something else than EGM2008.
-            """
             cmdstr = """python gdal_edit.py --config GTIFF_REPORT_COMPD_CS YES -a_srs epsg:%s+3855 -mo AREA_OR_POINT=POINT %s""" %(my_out_srs,namnam)
             dl.dp (cmdstr)
             dl.run_cmd(cmdstr)

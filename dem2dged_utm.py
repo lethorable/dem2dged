@@ -94,8 +94,13 @@ def main(args):
     my_in_ext = dl.get_extent_and_srs_of_input_raster(pargs.input_raster)
     dl.dp (my_in_ext)
     my_out_srs = 0
+    utmzone = pargs.utm
     if pargs.utm == 'autodetect':
         my_out_srs, zone_ish = get_recommended_srs_for_output(my_in_ext)
+        if my_out_srs < 32699:
+            utmzone = str(my_out_srs - 32600) + "N"
+        else:
+            utmzone = str(my_out_srs - 32700) + "S"
     else:
         if pargs.utm[2].upper() == 'N': #User input should be XXB
             my_out_srs= int("326"+pargs.utm[:-1]) #UTM N starts with 326
@@ -128,9 +133,9 @@ def main(args):
             miny = yy     * (tiledim)
             maxy = (yy+1) * (tiledim) + gsd
 #            print ("%s %s %s %s "%(minx, maxx, miny, maxy))
-            basename = "DGEDL%sUt%s_%s%s_%s_%s_%s_%s" %(pargs.product_level,tile_size_letter,pargs.utm,int(miny),int(minx), pargs.source_type, pargs.sec_class, pargs.prod_ver)  #should this be invoked from command line?
+            basename = "DGEDL%sUt%s_%s%s_%s_%s_%s_%s" %(pargs.product_level,tile_size_letter,utmzone,int(miny),int(minx), pargs.source_type, pargs.sec_class, pargs.prod_ver)  #should this be invoked from command line?
             if pargs.product_level in ['4b', '4', '5', '6']:
-                basename = "DGEDL%sUt%s_%s%s_%s_%s_%s_%s" %(pargs.product_level,tile_size_letter,pargs.utm,int(miny/1000),int(minx/1000), pargs.source_type, pargs.sec_class, pargs.prod_ver)
+                basename = "DGEDL%sUt%s_%s%s_%s_%s_%s_%s" %(pargs.product_level,tile_size_letter,utmzone,int(miny/1000),int(minx/1000), pargs.source_type, pargs.sec_class, pargs.prod_ver)
             namnam = os.path.join(pargs.output_folder,basename+'.tif')
             xmlnam = os.path.join(pargs.output_folder,basename+'.xml')
 
@@ -141,18 +146,11 @@ def main(args):
             dl.dp(" ")
             dl.dp("-"*70)
             dl.dp("Creating elevation raster %s" %(namnam))
-            # EPSG:3855 gives the vertical reference of EGM2008. For a lot of files, gdalwarp doesn't work when this reference is given.
-#            cmdstr = """gdalwarp -t_srs EPSG:%s+3855 -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minx, miny, maxx, maxy, gsd, gsd, pargs.input_raster, namnam )
-            cmdstr = """gdalwarp -t_srs EPSG:%s -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minx, miny, maxx, maxy, gsd, gsd, pargs.input_raster, namnam )
+            cmdstr = """gdalwarp -t_srs EPSG:%s+3855 -te %s %s %s %s -dstnodata -32767 -tr %s %s -r cubic -co COMPRESS=LZW --config GTIFF_REPORT_COMPD_CS YES %s %s""" %(my_out_srs, minx, miny, maxx, maxy, gsd, gsd, pargs.input_raster, namnam )
             dl.dp (cmdstr)
             dl.run_cmd(cmdstr)
 
             dl.dp("Adjusting tiff header")
-            """
-            The tiff file that is written, will have a vertical reference set to EGM2008 (EPSG:3855). With the modification
-            of the gdalwarp command above, there is no conversion of vertical datum, since the conversion seems problematic.
-            That means the true vertical reference might be something else than EGM2008.
-            """
             cmdstr = """python gdal_edit.py --config GTIFF_REPORT_COMPD_CS YES -a_srs epsg:%s+3855 -mo AREA_OR_POINT=POINT %s""" %(my_out_srs,namnam)
             dl.dp (cmdstr)
             dl.run_cmd(cmdstr)
