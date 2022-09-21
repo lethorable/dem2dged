@@ -6,7 +6,7 @@ import subprocess
 import datetime
 import dem2dged_lib as dl
 
-debug = True
+debug = False
 
 parser = argparse.ArgumentParser(description="Convert a DEM to DGED UTM. The script reads a GDAL raster source and based on user input creates a set of tiles compatible with DGIWG/DGED")
 parser.add_argument("input_raster", help="Elevation raster. Must be valid gdal source (geotiff, vrt, etc.)")
