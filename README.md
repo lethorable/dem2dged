@@ -42,6 +42,12 @@ Using the dem2dged_utm.py command above will autodetect a suitable UTM projectio
 
 `-xml_template`: Template for sidecar xml file. Default to DGED_GEO_TEMPLATE.xml and DGED_UTM_TEMPLATE.xml included in project
 
+`-source_type`: Source type code must be a letter according to the DGED specification (default is A = optical unedited reflective surface)
+
+`-security_class`: Security classification must be T, S, C, R or U (default is U)
+
+`-product_version`: Product version must be a 2 digits code (default is 01)
+
 `-verbose`: Show additional output
 
 For dem2dged_utm.py specifically:
