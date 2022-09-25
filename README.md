@@ -13,7 +13,7 @@ DGED sets forth rules on existing formats, ie GMLJP2, NSIF and GeoTIFF - the opt
 Though the DGED spec is already a narrow representation of the possibilities within GeoTiff, GMLJP2 and NSIF it is still quite elaborate and allows for a lot of options. These are further narrowed down in this implementation. For instance the no-data value is fixed, the tile size has been pre-chosen to the smallest size within a product level and certain values are hardcoded. If there are features you need for your project, let me know.
 
 **_THIS PROJECT IS VERY MUCH BETA! USE AT OWN RISK - ABSOLUTELY NO WARRANTY_**
-At present it has only been tested on mac(osx) and linux(ubuntu) and not in a production environment. The author takes no responsibility for any damage caused by using these scripts. Refer to the included license.
+The authors takes no responsibility for any damage caused by using these scripts. Refer to the included license.
 
 ## Running the script
 
@@ -105,11 +105,13 @@ This will create a subfolder "dged_output" with a set of tiles.
 
 ## Acknowledgement
 
-This work is based on the DGED Product Implementation Profile which can be downloaded [here](https://www.dgiwg.org/dgiwg-standards/250)
+This work is based on the DGED Product Implementation Profile which can be downloaded [here](https://www.dgiwg.org/dgiwg-standards/250) 
+
+Major contribution to the code from Ulf Tennfors. 
 
 The included templates (xml) is based on the DGED sample package from DGIWG (technically part of the spec).
 
-The included test.tif is from the Danish Elevation Model (DHM) and part of the public basic data programme. Data can be downloaded from [Kortforsyningen](https://download.kortforsyningen.dk)
+The included test.tif is from the Danish Elevation Model (DHM) and part of the public basic data programme. Data can be downloaded from [Kortforsyningen](https://dataforsyningen.dk)
 
 ## Known issues
 
@@ -117,11 +119,13 @@ Anaconda/GDAL for windows does not seem to ship with a working copy of gdal_edit
 
 When generating UTM DGED files for Norway and in particular Svalbard the UTM definition includes some regions in a different zone than the recommended. For these regions don't try to auto detect (default) but use the `-utm_zone` parameter to assign the desired zone.
 
+When generating tiles with a combined footprint matching the input data a border of seemingly empty tiles will be generated. This is due to the "one cell overlap" in accordance with the spec. If these tiles are undesired they can be deleted with a subsequent script or - as they consist of entirely empty cells - be filtered by file size.  
+
 ## The fine print
 
 You are welcome to use and contribute to this work observing the included license.
 
-Hvidovre, Copenhagen 2020 - Thorbjørn Nielsen.
+Hvidovre, Copenhagen 2022 - Thorbjørn Nielsen.
 For inquiries, questions etc please reach out at...
 
 t h o r b j o r n  (at) g m a i l (dot) c o m
